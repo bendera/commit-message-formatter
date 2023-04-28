@@ -1,0 +1,4 @@
+root = false
+
+[*.ts]
+trim_trailing_whitespace = false
