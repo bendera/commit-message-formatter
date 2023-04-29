@@ -9,6 +9,16 @@ export const textWithSpaces = trim`
 aaa aa  a   aaaa    
 `;
 
+export const longSubjectRaw = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas blandit lacinia massa sit amet sollicitudin.
+`;
+
+export const longSubjectFormatted = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing
+
+elit. Maecenas blandit lacinia massa sit amet sollicitudin.
+`;
+
 export const shortSubjectRaw = trim`
 Lorem ipsum
 
