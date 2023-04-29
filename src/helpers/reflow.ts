@@ -8,7 +8,7 @@ export default function reflow(
   const lines = message.split('\n');
   const joinedLines: string[] = [];
   let currentJoinedLine = '';
-  let prevType: 'listitem' | 'indented' | 'empty' | 'regular' = 'regular';
+  let prevType: 'listitem' | 'indented' | 'empty' | 'regular' | 'none' = 'none';
 
   lines.forEach((l, i) => {
     const { isListItem, isEmpty, isIndented } = analyzeLine(
@@ -35,7 +35,7 @@ export default function reflow(
 
       prevType = isListItem ? 'listitem' : 'indented';
     } else if (isEmpty) {
-      if (prevType !== 'empty') {
+      if (prevType !== 'empty' && prevType !== 'none') {
         joinedLines.push(currentJoinedLine);
         joinedLines.push('');
         currentJoinedLine = '';

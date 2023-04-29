@@ -85,6 +85,12 @@ Lorem ipsum
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas blandit lacinia massa sit amet sollicitudin. Ut quam est, dapibus finibus congue non, molestie eget.
 `;
 
+const beginsWithNl = trim`
+
+
+Lorem ipsum
+`;
+
 describe('reflow', () => {
   it('rejoin indented lines', () => {
     expect(reflow(indentedWithTabs, 2, true)).toBe(indentedWithTabsJoined);
@@ -100,5 +106,9 @@ describe('reflow', () => {
 
   it('rejoin mixed', () => {
     expect(reflow(mixed, 2, true)).toBe(mixedJoined);
+  });
+
+  it('begins with nl', () => {
+    expect(reflow(beginsWithNl, 2, true)).toBe(beginsWithNl);
   });
 });
