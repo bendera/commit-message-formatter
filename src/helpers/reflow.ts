@@ -52,7 +52,7 @@ export default function reflow(
       prevType = 'regular';
     }
 
-    if (i === lines.length - 1) {
+    if (i === lines.length - 1 && prevType !== 'empty') {
       joinedLines.push(currentJoinedLine);
     }
   });

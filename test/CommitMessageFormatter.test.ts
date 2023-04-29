@@ -1,4 +1,6 @@
 import {
+  finalNewlineInserted,
+  finalNewlineInsertedWrapped,
   indentWithTabsRaw,
   indentWithTabsWrapped,
   listAlphaBraketTabsRaw,
@@ -129,5 +131,11 @@ describe('CommitMessageFormatter', () => {
     });
 
     expect(formatter.format(listDashTabsRaw)).toBe(listDashTabsWrapped);
+  });
+
+  it('final newline should not be duplicated', () => {
+    const formatter = new CommitMessageFormatter();
+
+    expect(formatter.format(finalNewlineInserted)).toBe(finalNewlineInsertedWrapped);
   });
 });

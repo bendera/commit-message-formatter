@@ -1,4 +1,5 @@
 import reflow from '../../src/helpers/reflow';
+import { finalNewlineInserted } from '../_fixtures';
 
 const trim = (text: TemplateStringsArray) =>
   text[0].replace(/^[\n]{1}/, '').replace(/[\n]{1}$/, '');
@@ -110,5 +111,9 @@ describe('reflow', () => {
 
   it('begins with nl', () => {
     expect(reflow(beginsWithNl, 2, true)).toBe(beginsWithNl);
+  });
+
+  it('final newline should not be duplicated', () => {
+    expect(reflow(finalNewlineInserted, 2, false)).toBe(finalNewlineInserted);
   });
 });

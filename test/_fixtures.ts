@@ -137,4 +137,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae rhoncus leo
 1.) Pellentesque ac enim massa. Ut consequat, arcu ut dignissim vehicula, ligula turpis imperdiet lorem, vitae consectetur nunc erat eleifend risus. Nullam id consequat felis, ultricies varius est.
 2.) Pellentesque ac enim massa. Ut consequat, arcu ut dignissim vehicula, ligula turpis imperdiet lorem, vitae consectetur nunc erat eleifend risus. Nullam id consequat felis, ultricies varius est.
 
-`
+`;
+
+export const finalNewlineInserted = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec magna ipsum.\n
+`;
+
+export const finalNewlineInsertedWrapped = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing
+
+elit. Donec magna ipsum.\n
+`;
