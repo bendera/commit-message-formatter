@@ -23,6 +23,9 @@ import {
 } from './_fixtures';
 import CommitMessageFormatter from '../src/CommitMessageFormatter';
 
+const trim = (text: TemplateStringsArray) =>
+  text[0].replace(/^[\n]{1}/, '').replace(/[\n]{1}$/, '');
+
 describe('CommitMessageFormatter', () => {
   it('CommitMessageFormatter is instantiable', () => {
     expect(new CommitMessageFormatter({})).toBeInstanceOf(
@@ -76,6 +79,57 @@ describe('CommitMessageFormatter', () => {
     const formatter = new CommitMessageFormatter();
 
     expect(formatter.format(longSubjectRaw)).toBe(longSubjectFormatted);
+  });
+
+  it('Subject mode truncate', () => {
+    const raw = trim`
+Suspendisse porttitor semper nunc. Suspendisse potenti.
+`;
+    const expected = trim`
+Suspendisse porttitor semper nunc. Suspendisse pot
+
+enti.
+`;
+
+    const formatter = new CommitMessageFormatter({
+      subjectMode: 'truncate'
+    });
+
+    expect(formatter.format(raw)).toBe(expected);
+  });
+
+  it('Subject mode truncate-ellipses', () => {
+    const raw = trim`
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit
+`;
+    const expected = trim`
+Nemo enim ipsam voluptatem quia voluptas sit as...
+
+...pernatur aut odit aut fugit
+`;
+
+    const formatter = new CommitMessageFormatter({
+      subjectMode: 'truncate-ellipses'
+    });
+
+    expect(formatter.format(raw)).toBe(expected);
+  });
+
+  it('Subject mode split', () => {
+    const raw = trim`
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit
+`;
+    const expected = trim`
+Nemo enim ipsam voluptatem quia voluptas sit
+
+aspernatur aut odit aut fugit
+`;
+
+    const formatter = new CommitMessageFormatter({
+      subjectMode: 'split'
+    });
+
+    expect(formatter.format(raw)).toBe(expected);
   });
 
   it('indented with tabs', () => {

@@ -27,13 +27,8 @@ class CommitMessageFormatter {
       indentWithTabs: false,
     };
     const finalOptions = Object.assign(defaultOptions, options ? options : {});
-    const {
-      subjectMode,
-      subjectLength,
-      lineLength,
-      tabSize,
-      indentWithTabs,
-    } = finalOptions;
+    const { subjectMode, subjectLength, lineLength, tabSize, indentWithTabs } =
+      finalOptions;
 
     this._subjectMode = subjectMode;
     this._subjectLength = subjectLength;
@@ -87,6 +82,36 @@ class CommitMessageFormatter {
       return {
         formatted,
         rest: '...' + rawText.substring(this._subjectLength - 3),
+      };
+    }
+
+    if (this._subjectMode === 'split') {
+      const firstLine = rawText.split('\n')[0];
+      const words = firstLine.split(' ');
+      let formatted = '';
+      let rest = '';
+
+      words.forEach((word, i) => {
+        const prefix = i > 0 ? ' ' : '';
+        const wordPadded = prefix + word;
+
+        if (
+          formatted.length + wordPadded.length <= this._subjectLength &&
+          rest === ''
+        ) {
+          formatted += wordPadded;
+        } else {
+          if (rest === '') {
+            rest += word;
+          } else {
+            rest += ' ' + word;
+          }
+        }
+      });
+
+      return {
+        formatted,
+        rest,
       };
     }
 
