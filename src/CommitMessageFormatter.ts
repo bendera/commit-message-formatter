@@ -61,7 +61,7 @@ class CommitMessageFormatter {
     };
   }
 
-  _removeUnnecessaryNewLines(message: string) {
+  private _removeUnnecessaryNewLines(message: string) {
     if (this._collapseMultipleEmptyLines) {
       return message.replace(/\n{3,}/gm, '\n\n');
     }
