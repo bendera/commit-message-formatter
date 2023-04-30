@@ -120,8 +120,10 @@ class CommitMessageFormatter {
 
     const { indentationText, indentationWidth, leadingText } = analyzeLine(
       rawLine,
-      this._tabSize,
-      this._indentWithTabs
+      {
+        tabSize: this._tabSize,
+        indentWithTabs: this._indentWithTabs,
+      }
     );
 
     let formattedLine = leadingText;

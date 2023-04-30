@@ -1,6 +1,8 @@
 import reflow from '../../src/helpers/reflow';
 import { finalNewlineInserted } from '../_fixtures';
 
+// #region fixtures
+
 const trim = (text: TemplateStringsArray) =>
   text[0].replace(/^[\n]{1}/, '').replace(/[\n]{1}$/, '');
 
@@ -91,6 +93,8 @@ const beginsWithNl = trim`
 
 Lorem ipsum
 `;
+
+// #endregion
 
 describe('reflow', () => {
   it('rejoin indented lines', () => {

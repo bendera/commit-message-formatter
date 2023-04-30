@@ -11,7 +11,7 @@ export default function reflow(
   let prevType: LineType | 'none' = 'none';
 
   lines.forEach((l, i) => {
-    const { lineType } = analyzeLine(l, tabSize, indentWithTabs);
+    const { lineType } = analyzeLine(l, { tabSize, indentWithTabs });
 
     if (lineType === 'list-item' || lineType === 'indented') {
       if (
