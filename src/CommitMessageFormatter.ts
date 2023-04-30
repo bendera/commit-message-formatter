@@ -1,7 +1,11 @@
 import analyzeLine from './helpers/analyzeLine';
 import reflow from './helpers/reflow';
 
-type SubjectFormattingMode = 'truncate' | 'truncate-ellipses' | 'split';
+type SubjectFormattingMode =
+  | 'truncate'
+  | 'truncate-ellipses'
+  | 'split'
+  | 'split-ellipses';
 
 export interface CommitMessageFormatterOptions {
   subjectMode?: SubjectFormattingMode;
@@ -103,6 +107,39 @@ class CommitMessageFormatter {
         } else {
           if (rest === '') {
             rest += word;
+          } else {
+            rest += ' ' + word;
+          }
+        }
+      });
+
+      return {
+        formatted,
+        rest,
+      };
+    }
+
+    if (this._subjectMode === 'split-ellipses') {
+      const firstLine = rawText.split('\n')[0];
+      const words = firstLine.split(' ');
+      let formatted = '';
+      let rest = '';
+
+      words.forEach((word, i) => {
+        const prefix = i > 0 ? ' ' : '';
+        const wordPadded = prefix + word;
+        const ellipsis = '...';
+
+        if (
+          formatted.length + wordPadded.length + ellipsis.length <=
+            this._subjectLength &&
+          rest === ''
+        ) {
+          formatted += wordPadded;
+        } else {
+          if (rest === '') {
+            formatted += ellipsis;
+            rest += ellipsis + word;
           } else {
             rest += ' ' + word;
           }

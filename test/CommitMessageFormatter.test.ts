@@ -132,6 +132,23 @@ aspernatur aut odit aut fugit
     expect(formatter.format(raw)).toBe(expected);
   });
 
+  it('Subject mode split-ellipses', () => {
+    const raw = trim`
+Nemo enim ipsam voluptatem quia voluptas sit asp ernatur aut odit aut fugit
+`;
+    const expected = trim`
+Nemo enim ipsam voluptatem quia voluptas sit...
+
+...asp ernatur aut odit aut fugit
+`;
+
+    const formatter = new CommitMessageFormatter({
+      subjectMode: 'split-ellipses'
+    });
+
+    expect(formatter.format(raw)).toBe(expected);
+  });
+
   it('indented with tabs', () => {
     const formatter = new CommitMessageFormatter({
       tabSize: 4,
