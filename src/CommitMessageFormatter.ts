@@ -4,7 +4,6 @@ import reflow from './helpers/reflow';
 type SubjectFormattingMode = 'truncate' | 'truncate-ellipses' | 'split';
 
 export interface CommitMessageFormatterOptions {
-  blankLineAfterSubject?: boolean;
   subjectMode?: SubjectFormattingMode;
   subjectLength?: number;
   lineLength?: number;
@@ -13,7 +12,6 @@ export interface CommitMessageFormatterOptions {
 }
 
 class CommitMessageFormatter {
-  private _blankLineAfterSubject: boolean;
   private _subjectMode: SubjectFormattingMode;
   private _subjectLength: number;
   private _lineLength: number;
@@ -22,7 +20,6 @@ class CommitMessageFormatter {
 
   constructor(options?: CommitMessageFormatterOptions) {
     const defaultOptions: CommitMessageFormatterOptions = {
-      blankLineAfterSubject: false,
       subjectMode: 'truncate',
       subjectLength: 50,
       lineLength: 72,
@@ -31,7 +28,6 @@ class CommitMessageFormatter {
     };
     const finalOptions = Object.assign(defaultOptions, options ? options : {});
     const {
-      blankLineAfterSubject,
       subjectMode,
       subjectLength,
       lineLength,
@@ -39,7 +35,6 @@ class CommitMessageFormatter {
       indentWithTabs,
     } = finalOptions;
 
-    this._blankLineAfterSubject = blankLineAfterSubject;
     this._subjectMode = subjectMode;
     this._subjectLength = subjectLength;
     this._lineLength = lineLength;
@@ -49,7 +44,6 @@ class CommitMessageFormatter {
 
   getOptions(): CommitMessageFormatterOptions {
     return {
-      blankLineAfterSubject: this._blankLineAfterSubject,
       subjectMode: this._subjectMode,
       subjectLength: this._subjectLength,
       lineLength: this._lineLength,

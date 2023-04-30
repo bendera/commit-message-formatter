@@ -34,7 +34,6 @@ describe('CommitMessageFormatter', () => {
     const formatter = new CommitMessageFormatter();
 
     expect(formatter.getOptions()).toStrictEqual({
-      blankLineAfterSubject: false,
       subjectMode: 'truncate',
       subjectLength: 50,
       lineLength: 72,
@@ -45,7 +44,6 @@ describe('CommitMessageFormatter', () => {
 
   it('Options should be passed', () => {
     const formatter = new CommitMessageFormatter({
-      blankLineAfterSubject: true,
       subjectMode: 'truncate-ellipses',
       subjectLength: 100,
       lineLength: 200,
@@ -54,7 +52,6 @@ describe('CommitMessageFormatter', () => {
     });
 
     expect(formatter.getOptions()).toStrictEqual({
-      blankLineAfterSubject: true,
       subjectMode: 'truncate-ellipses',
       subjectLength: 100,
       lineLength: 200,
