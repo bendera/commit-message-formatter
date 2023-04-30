@@ -11,13 +11,9 @@ export default function reflow(
   let prevType: 'listitem' | 'indented' | 'empty' | 'regular' | 'none' = 'none';
 
   lines.forEach((l, i) => {
-    const { isListItem, isEmpty, isIndented } = analyzeLine(
-      l,
-      tabSize,
-      indentWithTabs
-    );
+    const { lineType } = analyzeLine(l, tabSize, indentWithTabs);
 
-    if (isListItem || isIndented) {
+    if (lineType === 'list-item' || lineType === 'indented') {
       if (
         prevType !== 'listitem' &&
         prevType !== 'indented' &&
@@ -33,8 +29,8 @@ export default function reflow(
         currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
       }
 
-      prevType = isListItem ? 'listitem' : 'indented';
-    } else if (isEmpty) {
+      prevType = lineType === 'list-item' ? 'listitem' : 'indented';
+    } else if (lineType === 'empty') {
       if (prevType !== 'empty' && prevType !== 'none') {
         joinedLines.push(currentJoinedLine);
         joinedLines.push('');
