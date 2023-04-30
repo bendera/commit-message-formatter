@@ -1,4 +1,4 @@
-import analyzeLine from './analyzeLine';
+import analyzeLine, { LineType } from './analyzeLine';
 
 export default function reflow(
   message: string,
@@ -8,28 +8,26 @@ export default function reflow(
   const lines = message.split('\n');
   const joinedLines: string[] = [];
   let currentJoinedLine = '';
-  let prevType: 'listitem' | 'indented' | 'empty' | 'regular' | 'none' = 'none';
+  let prevType: LineType | 'none' = 'none';
 
   lines.forEach((l, i) => {
     const { lineType } = analyzeLine(l, tabSize, indentWithTabs);
 
     if (lineType === 'list-item' || lineType === 'indented') {
       if (
-        prevType !== 'listitem' &&
+        prevType !== 'list-item' &&
         prevType !== 'indented' &&
         prevType !== 'empty'
       ) {
         joinedLines.push(currentJoinedLine);
       }
 
-      if (prevType !== 'listitem' && prevType !== 'indented') {
+      if (prevType !== 'list-item' && prevType !== 'indented') {
         currentJoinedLine = l;
       } else {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
         currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
       }
-
-      prevType = lineType === 'list-item' ? 'listitem' : 'indented';
     } else if (lineType === 'empty') {
       if (prevType !== 'empty' && prevType !== 'none') {
         joinedLines.push(currentJoinedLine);
@@ -39,18 +37,16 @@ export default function reflow(
         joinedLines.push('');
         currentJoinedLine = '';
       }
-
-      prevType = 'empty';
-    } else {
+    } else if (lineType === 'regular') {
       const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
       currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
-
-      prevType = 'regular';
     }
 
-    if (i === lines.length - 1 && prevType !== 'empty') {
+    if (i === lines.length - 1 && currentJoinedLine !== '') {
       joinedLines.push(currentJoinedLine);
     }
+
+    prevType = lineType;
   });
 
   return joinedLines.join('\n');
