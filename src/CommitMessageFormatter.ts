@@ -164,7 +164,7 @@ class CommitMessageFormatter {
     // remove leading space if it exists
     rest = rest.replace(/^([ ]+)/g, '');
 
-    const nlMatches = /^[\n]+/gm.exec(rest);
+    const nlMatches = /^[\n]+/g.exec(rest);
     const nlsAtTheBeginning = nlMatches ? nlMatches[0].length : 0;
     const minRequiredNls = 2;
 

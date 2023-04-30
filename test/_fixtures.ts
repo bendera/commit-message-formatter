@@ -159,6 +159,31 @@ luctus dolor volutpat.
 		est.
 `;
 
+export const todo3 = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dolor tempus, finibus erat ac, iaculis dolor. Donec in justo porttitor, fermentum eros quis, pharetra augue.
+
+  1.) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dolor tempus, finibus erat ac, iaculis dolor.
+  2.) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dolor tempus, finibus erat ac, iaculis dolor.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dolor tempus, finibus erat ac, iaculis dolor. Donec in justo porttitor, fermentum eros quis, pharetra augue.
+`;
+
+export const todo3Expected = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing
+
+elit. Etiam id dolor tempus, finibus erat ac, iaculis dolor. Donec in
+justo porttitor, fermentum eros quis, pharetra augue.
+
+  1.) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id
+      dolor tempus, finibus erat ac, iaculis dolor.
+  2.) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id
+      dolor tempus, finibus erat ac, iaculis dolor.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dolor
+tempus, finibus erat ac, iaculis dolor. Donec in justo porttitor,
+fermentum eros quis, pharetra augue.
+`;
+
 export const finalNewlineInserted = trim`
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec magna ipsum.\n
 `;

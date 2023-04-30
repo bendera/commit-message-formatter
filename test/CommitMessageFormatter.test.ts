@@ -18,6 +18,8 @@ import {
   shortSubjectRaw,
   todo2,
   todo2Expected,
+  todo3,
+  todo3Expected,
 } from './_fixtures';
 import CommitMessageFormatter from '../src/CommitMessageFormatter';
 
@@ -147,5 +149,11 @@ describe('CommitMessageFormatter', () => {
     const formatter = new CommitMessageFormatter({ indentWithTabs: true });
 
     expect(formatter.format(todo2)).toBe(todo2Expected);
+  });
+
+  it('todo3', () => {
+    const formatter = new CommitMessageFormatter();
+
+    expect(formatter.format(todo3)).toBe(todo3Expected);
   });
 });
