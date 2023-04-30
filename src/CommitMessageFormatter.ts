@@ -78,6 +78,8 @@ class CommitMessageFormatter {
 
     if (nextNlPos > -1) {
       rawLine = rawText.substring(0, nextNlPos);
+    } else if (nextNlPos === 0) {
+      rawLine = '\n';
     } else {
       rawLine = rawText;
     }
@@ -201,13 +203,6 @@ class CommitMessageFormatter {
         indentWithTabs: this._indentWithTabs,
       });
 
-    if (lineType === 'protected') {
-      return {
-        formatted: rawText.substring(0, nextNlPos),
-        rest: rawText.substring(nextNlPos + 1),
-      };
-    }
-
     let formattedLine = leadingText;
     const remainingLine = rawLine.substring(leadingText.length);
     const availableLength = this._lineLength - indentationWidth;
@@ -250,7 +245,7 @@ class CommitMessageFormatter {
     const nlsAtTheBeginning = nlMatches ? nlMatches[0].length : 0;
     const minRequiredNls = 2;
 
-    if (nlsAtTheBeginning < minRequiredNls) {
+    if (nlsAtTheBeginning < minRequiredNls && formatted !== '') {
       rest = ''.padStart(minRequiredNls - nlsAtTheBeginning, '\n') + rest;
     }
 

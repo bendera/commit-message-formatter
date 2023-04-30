@@ -237,28 +237,18 @@ Nemo enim ipsam voluptatem quia voluptas sit...
 
   it('Protected lines should not be touched', () => {
     const raw = trim`
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
-
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
-`;
-
-    const expected = trim`
-Lorem ipsum dolor sit amet, consectetur adipiscing
-
-elit.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-porttitor nunc a enim vestibulum consectetur.
-
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Changes to be committed:
+#	new file:   README.md
+#
 `;
 
     const formatter = new CommitMessageFormatter();
 
-    expect(formatter.format(raw)).toBe(expected);
+    expect(formatter.format(raw)).toBe(raw);
   });
 });

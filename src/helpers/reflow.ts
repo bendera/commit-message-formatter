@@ -29,19 +29,19 @@ export default function reflow(
         currentJoinedLine = l;
       }
     } else if (lineType === 'empty') {
-      if (prevType !== 'empty' && prevType !== 'none') {
+      if (currentJoinedLine !== '') {
         joinedLines.push(currentJoinedLine);
-        joinedLines.push('');
-        currentJoinedLine = '';
-      } else {
-        joinedLines.push('');
-        currentJoinedLine = '';
       }
+
+      joinedLines.push('');
+      currentJoinedLine = '';
     } else if (lineType === 'regular') {
       const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
       currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
     } else if (lineType === 'protected') {
-      joinedLines.push(currentJoinedLine);
+      if (currentJoinedLine !== '') {
+        joinedLines.push(currentJoinedLine);
+      }
       currentJoinedLine = '';
       joinedLines.push(l);
     }
