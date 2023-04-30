@@ -94,6 +94,12 @@ const beginsWithNl = trim`
 Lorem ipsum
 `;
 
+const protectedLine = trim`
+Lorem ipsum dolor sit amet
+Co-authored-by: John Doe<johndoe@example.org>
+consectetur adipiscing elit
+`;
+
 // #endregion
 
 describe('reflow', () => {
@@ -119,5 +125,9 @@ describe('reflow', () => {
 
   it('final newline should not be duplicated', () => {
     expect(reflow(finalNewlineInserted, 2, false)).toBe(finalNewlineInserted);
+  });
+
+  it('Protected line should be kept untouched', () => {
+    expect(reflow(protectedLine, 2, false)).toBe(protectedLine);
   });
 });

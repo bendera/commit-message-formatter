@@ -13,20 +13,20 @@ export default function reflow(
   lines.forEach((l, i) => {
     const { lineType } = analyzeLine(l, { tabSize, indentWithTabs });
 
-    if (lineType === 'list-item' || lineType === 'indented') {
-      if (
-        prevType !== 'list-item' &&
-        prevType !== 'indented' &&
-        prevType !== 'empty'
-      ) {
+    if (lineType === 'list-item') {
+      if (prevType !== 'empty') {
         joinedLines.push(currentJoinedLine);
       }
-
-      if (prevType !== 'list-item' && prevType !== 'indented') {
-        currentJoinedLine = l;
-      } else {
+      currentJoinedLine = l;
+    } else if (lineType === 'indented') {
+      if (prevType === 'indented' || prevType === 'list-item') {
         const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
         currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
+      } else {
+        if (prevType !== 'empty') {
+          joinedLines.push(currentJoinedLine);
+        }
+        currentJoinedLine = l;
       }
     } else if (lineType === 'empty') {
       if (prevType !== 'empty' && prevType !== 'none') {
@@ -40,6 +40,10 @@ export default function reflow(
     } else if (lineType === 'regular') {
       const prependedSpace = currentJoinedLine !== '' ? ' ' : '';
       currentJoinedLine += prependedSpace + l.trimStart().trimEnd();
+    } else if (lineType === 'protected') {
+      joinedLines.push(currentJoinedLine);
+      currentJoinedLine = '';
+      joinedLines.push(l);
     }
 
     if (i === lines.length - 1 && currentJoinedLine !== '') {

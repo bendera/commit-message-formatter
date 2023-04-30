@@ -16,6 +16,8 @@ import {
   longSubjectFormatted,
   longSubjectRaw,
   shortSubjectRaw,
+  todo2,
+  todo2Expected,
 } from './_fixtures';
 import CommitMessageFormatter from '../src/CommitMessageFormatter';
 
@@ -136,6 +138,14 @@ describe('CommitMessageFormatter', () => {
   it('final newline should not be duplicated', () => {
     const formatter = new CommitMessageFormatter();
 
-    expect(formatter.format(finalNewlineInserted)).toBe(finalNewlineInsertedWrapped);
+    expect(formatter.format(finalNewlineInserted)).toBe(
+      finalNewlineInsertedWrapped
+    );
+  });
+
+  it('todo2', () => {
+    const formatter = new CommitMessageFormatter({ indentWithTabs: true });
+
+    expect(formatter.format(todo2)).toBe(todo2Expected);
   });
 });

@@ -136,7 +136,27 @@ export const todo2 = trim`
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae rhoncus leo. Aenean viverra commodo ipsum, ut commodo tellus tempus id. Quisque pretium faucibus augue maximus fermentum. Nam ornare nibh nec convallis tristique. Proin pharetra ex a felis ullamcorper hendrerit. Aenean sodales purus ante, et iaculis urna finibus vitae. Suspendisse id imperdiet ipsum. Donec tempus sapien id ultricies rhoncus. Nulla dapibus purus vel quam pharetra, mattis consectetur sem egestas. Etiam lobortis libero at ante molestie, a luctus dolor volutpat.
 1.) Pellentesque ac enim massa. Ut consequat, arcu ut dignissim vehicula, ligula turpis imperdiet lorem, vitae consectetur nunc erat eleifend risus. Nullam id consequat felis, ultricies varius est.
 2.) Pellentesque ac enim massa. Ut consequat, arcu ut dignissim vehicula, ligula turpis imperdiet lorem, vitae consectetur nunc erat eleifend risus. Nullam id consequat felis, ultricies varius est.
+`;
 
+export const todo2Expected = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing
+
+elit. Donec vitae rhoncus leo. Aenean viverra commodo ipsum, ut commodo
+tellus tempus id. Quisque pretium faucibus augue maximus fermentum. Nam
+ornare nibh nec convallis tristique. Proin pharetra ex a felis
+ullamcorper hendrerit. Aenean sodales purus ante, et iaculis urna
+finibus vitae. Suspendisse id imperdiet ipsum. Donec tempus sapien id
+ultricies rhoncus. Nulla dapibus purus vel quam pharetra, mattis
+consectetur sem egestas. Etiam lobortis libero at ante molestie, a
+luctus dolor volutpat.
+1.) Pellentesque ac enim massa. Ut consequat, arcu ut dignissim
+		vehicula, ligula turpis imperdiet lorem, vitae consectetur nunc
+		erat eleifend risus. Nullam id consequat felis, ultricies varius
+		est.
+2.) Pellentesque ac enim massa. Ut consequat, arcu ut dignissim
+		vehicula, ligula turpis imperdiet lorem, vitae consectetur nunc
+		erat eleifend risus. Nullam id consequat felis, ultricies varius
+		est.
 `;
 
 export const finalNewlineInserted = trim`
