@@ -14,6 +14,7 @@ export interface CommitMessageFormatterOptions {
   tabSize?: number;
   indentWithTabs?: boolean;
   collapseMultipleEmptyLines?: boolean;
+  protectedPatterns?: string[];
 }
 
 class CommitMessageFormatter {
@@ -23,6 +24,7 @@ class CommitMessageFormatter {
   private _tabSize: number;
   private _indentWithTabs: boolean;
   private _collapseMultipleEmptyLines: boolean;
+  private _protectedPatterns: string[];
 
   constructor(options?: CommitMessageFormatterOptions) {
     const defaultOptions: CommitMessageFormatterOptions = {
@@ -32,6 +34,7 @@ class CommitMessageFormatter {
       tabSize: 2,
       indentWithTabs: false,
       collapseMultipleEmptyLines: true,
+      protectedPatterns: ['#', 'Co-authored-by:', 'Signed-off-by:'],
     };
     const finalOptions = Object.assign(defaultOptions, options ? options : {});
     const {
@@ -192,13 +195,18 @@ class CommitMessageFormatter {
       };
     }
 
-    const { indentationText, indentationWidth, leadingText } = analyzeLine(
-      rawLine,
-      {
+    const { indentationText, indentationWidth, leadingText, lineType } =
+      analyzeLine(rawLine, {
         tabSize: this._tabSize,
         indentWithTabs: this._indentWithTabs,
-      }
-    );
+      });
+
+    if (lineType === 'protected') {
+      return {
+        formatted: rawText.substring(0, nextNlPos),
+        rest: rawText.substring(nextNlPos + 1),
+      };
+    }
 
     let formattedLine = leadingText;
     const remainingLine = rawLine.substring(leadingText.length);

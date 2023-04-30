@@ -234,4 +234,31 @@ Nemo enim ipsam voluptatem quia voluptas sit...
 
     expect(formatter.format(raw)).toBe('Lorem\n\nIpsum\n\nDolor');
   });
+
+  it('Protected lines should not be touched', () => {
+    const raw = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
+
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
+`;
+
+    const expected = trim`
+Lorem ipsum dolor sit amet, consectetur adipiscing
+
+elit.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+porttitor nunc a enim vestibulum consectetur.
+
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque porttitor nunc a enim vestibulum consectetur.
+`;
+
+    const formatter = new CommitMessageFormatter();
+
+    expect(formatter.format(raw)).toBe(expected);
+  });
 });
