@@ -1,7 +1,7 @@
 import analyzeLine from './helpers/analyzeLine';
 import reflow from './helpers/reflow';
 
-type SubjectFormattingMode =
+export type SubjectFormattingMode =
   | 'truncate'
   | 'truncate-ellipses'
   | 'split'
