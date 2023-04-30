@@ -13,6 +13,7 @@ export interface CommitMessageFormatterOptions {
   lineLength?: number;
   tabSize?: number;
   indentWithTabs?: boolean;
+  collapseMultipleEmptyLines?: boolean;
 }
 
 class CommitMessageFormatter {
@@ -21,6 +22,7 @@ class CommitMessageFormatter {
   private _lineLength: number;
   private _tabSize: number;
   private _indentWithTabs: boolean;
+  private _collapseMultipleEmptyLines: boolean;
 
   constructor(options?: CommitMessageFormatterOptions) {
     const defaultOptions: CommitMessageFormatterOptions = {
@@ -29,16 +31,24 @@ class CommitMessageFormatter {
       lineLength: 72,
       tabSize: 2,
       indentWithTabs: false,
+      collapseMultipleEmptyLines: true,
     };
     const finalOptions = Object.assign(defaultOptions, options ? options : {});
-    const { subjectMode, subjectLength, lineLength, tabSize, indentWithTabs } =
-      finalOptions;
+    const {
+      subjectMode,
+      subjectLength,
+      lineLength,
+      tabSize,
+      indentWithTabs,
+      collapseMultipleEmptyLines,
+    } = finalOptions;
 
     this._subjectMode = subjectMode;
     this._subjectLength = subjectLength;
     this._lineLength = lineLength;
     this._tabSize = tabSize;
     this._indentWithTabs = indentWithTabs;
+    this._collapseMultipleEmptyLines = collapseMultipleEmptyLines;
   }
 
   getOptions(): CommitMessageFormatterOptions {
@@ -49,6 +59,14 @@ class CommitMessageFormatter {
       tabSize: this._tabSize,
       indentWithTabs: this._indentWithTabs,
     };
+  }
+
+  _removeUnnecessaryNewLines(message: string) {
+    if (this._collapseMultipleEmptyLines) {
+      return message.replace(/\n{3,}/gm, '\n\n');
+    }
+
+    return message;
   }
 
   formatSubject(rawText: string): { formatted: string; rest: string } {
@@ -210,7 +228,7 @@ class CommitMessageFormatter {
 
   format(message: string): string {
     if (message.length <= this._subjectLength) {
-      return message;
+      return this._removeUnnecessaryNewLines(message);
     }
 
     const subject = this.formatSubject(message);
@@ -237,7 +255,9 @@ class CommitMessageFormatter {
       rest = next.rest;
     }
 
-    return formatted + rest;
+    formatted = formatted + rest;
+
+    return this._removeUnnecessaryNewLines(formatted);
   }
 }
 

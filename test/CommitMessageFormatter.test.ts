@@ -92,7 +92,7 @@ enti.
 `;
 
     const formatter = new CommitMessageFormatter({
-      subjectMode: 'truncate'
+      subjectMode: 'truncate',
     });
 
     expect(formatter.format(raw)).toBe(expected);
@@ -109,7 +109,7 @@ Nemo enim ipsam voluptatem quia voluptas sit as...
 `;
 
     const formatter = new CommitMessageFormatter({
-      subjectMode: 'truncate-ellipses'
+      subjectMode: 'truncate-ellipses',
     });
 
     expect(formatter.format(raw)).toBe(expected);
@@ -126,7 +126,7 @@ aspernatur aut odit aut fugit
 `;
 
     const formatter = new CommitMessageFormatter({
-      subjectMode: 'split'
+      subjectMode: 'split',
     });
 
     expect(formatter.format(raw)).toBe(expected);
@@ -143,7 +143,7 @@ Nemo enim ipsam voluptatem quia voluptas sit...
 `;
 
     const formatter = new CommitMessageFormatter({
-      subjectMode: 'split-ellipses'
+      subjectMode: 'split-ellipses',
     });
 
     expect(formatter.format(raw)).toBe(expected);
@@ -223,5 +223,15 @@ Nemo enim ipsam voluptatem quia voluptas sit...
     const formatter = new CommitMessageFormatter();
 
     expect(formatter.format(todo3)).toBe(todo3Expected);
+  });
+
+  it('Redundant empty lines should be removed', () => {
+    const raw = 'Lorem\n\n\n\n\nIpsum\n\n\n\n\nDolor';
+
+    const formatter = new CommitMessageFormatter({
+      collapseMultipleEmptyLines: true,
+    });
+
+    expect(formatter.format(raw)).toBe('Lorem\n\nIpsum\n\nDolor');
   });
 });
