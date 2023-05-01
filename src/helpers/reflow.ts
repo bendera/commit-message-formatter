@@ -11,7 +11,7 @@ export default function reflow(
   const defaultOptions = {
     tabSize: 2,
     indentWithTabs: false,
-    protectedPatterns: [],
+    protectedPatterns: ['#', 'Co-authored-by:', 'Signed-off-by:'],
   };
   const finalizedOptions = Object.assign(defaultOptions, options);
   const { tabSize, indentWithTabs, protectedPatterns } = finalizedOptions;

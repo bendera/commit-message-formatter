@@ -77,29 +77,30 @@ class CommitMessageFormatter {
 
   formatSubject(rawText: string): { formatted: string; rest: string } {
     const nextNlPos = rawText.indexOf('\n');
-    let rawLine = '';
+    const hasFinalNl = nextNlPos > -1;
+    let subjectLine = '';
 
-    if (nextNlPos > -1) {
+    if (hasFinalNl) {
       if (nextNlPos === 0) {
-        rawLine = '\n';
+        subjectLine = '\n';
       } else {
-        rawLine = rawText.substring(0, nextNlPos);
+        subjectLine = rawText.substring(0, nextNlPos);
       }
     } else {
-      rawLine = rawText;
+      subjectLine = rawText;
     }
 
-    if (rawLine.length <= this._subjectLength) {
-      const rawLineLength = rawLine.length;
+    if (subjectLine.length <= this._subjectLength) {
+      const rawLineLength = subjectLine.length;
 
       return {
-        formatted: rawLine,
+        formatted: subjectLine,
         rest: rawText.substring(rawLineLength),
       };
     }
 
     if (this._subjectMode === 'truncate') {
-      const formatted = rawLine.substring(0, this._subjectLength);
+      const formatted = subjectLine.substring(0, this._subjectLength);
       const rest = rawText.substring(this._subjectLength);
 
       return {
@@ -118,10 +119,10 @@ class CommitMessageFormatter {
     }
 
     if (this._subjectMode === 'split') {
-      const firstLine = rawText.split('\n')[0];
-      const words = firstLine.split(' ');
+      const words = subjectLine.split(' ');
+      const rest = rawText.substring(subjectLine.length + 1);
       let formatted = '';
-      let rest = '';
+      let subjectRest = '';
 
       words.forEach((word, i) => {
         const prefix = i > 0 ? ' ' : '';
@@ -129,21 +130,23 @@ class CommitMessageFormatter {
 
         if (
           formatted.length + wordPadded.length <= this._subjectLength &&
-          rest === ''
+          subjectRest === ''
         ) {
           formatted += wordPadded;
         } else {
-          if (rest === '') {
-            rest += word;
+          if (subjectRest === '') {
+            subjectRest += word;
           } else {
-            rest += ' ' + word;
+            subjectRest += ' ' + word;
           }
         }
       });
 
+      const restPadded = rest.length > 0 ? '\n\n' + rest : rest;
+
       return {
         formatted,
-        rest,
+        rest: subjectRest + restPadded,
       };
     }
 

@@ -254,4 +254,34 @@ Nemo enim ipsam voluptatem quia voluptas sit...
 
     expect(formatter.format(raw)).toBe(raw);
   });
+
+  it('todo4', () => {
+    const raw = trim`
+Phasellus ac nisi ac arcu blandit egestas ac non dui.
+Etiam sed lorem id mauris posuere porta id at lacus.
+Aenean gravida nulla at tempor lobortis.
+Fusce rhoncus tellus nec nisl congue bibendum.
+Praesent convallis leo quis eros laoreet, nec viverra nulla ultricies.
+`;
+
+    const expected = trim`
+Phasellus ac nisi ac arcu blandit egestas ac non
+
+dui.
+
+Etiam sed lorem id mauris posuere porta id at lacus. Aenean gravida
+nulla at tempor lobortis. Fusce rhoncus tellus nec nisl congue bibendum.
+Praesent convallis leo quis eros laoreet, nec viverra nulla ultricies.
+`;
+
+    const formatter = new CommitMessageFormatter({
+      lineLength: 72,
+      subjectLength: 50,
+      collapseMultipleEmptyLines: false,
+      subjectMode: 'split',
+    });
+    const actual = formatter.format(raw);
+
+    expect(actual).toBe(expected);
+  });
 });

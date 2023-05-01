@@ -158,6 +158,8 @@ Aenean gravida nulla at tempor lobortis.
 Fusce rhoncus tellus nec nisl congue bibendum.
 Praesent convallis leo quis eros laoreet, nec viverra nulla ultricies.
 `;
-    expect(reflow(raw, { tabSize: 2, indentWithTabs: true })).toBe('');
+    const expected =
+      'Phasellus ac nisi ac arcu blandit egestas ac non dui. Etiam sed lorem id mauris posuere porta id at lacus. Aenean gravida nulla at tempor lobortis. Fusce rhoncus tellus nec nisl congue bibendum. Praesent convallis leo quis eros laoreet, nec viverra nulla ultricies.';
+    expect(reflow(raw, { tabSize: 2, indentWithTabs: true })).toBe(expected);
   });
 });
