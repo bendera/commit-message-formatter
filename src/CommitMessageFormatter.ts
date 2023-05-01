@@ -77,9 +77,11 @@ class CommitMessageFormatter {
     let rawLine = '';
 
     if (nextNlPos > -1) {
-      rawLine = rawText.substring(0, nextNlPos);
-    } else if (nextNlPos === 0) {
-      rawLine = '\n';
+      if (nextNlPos === 0) {
+        rawLine = '\n';
+      } else {
+        rawLine = rawText.substring(0, nextNlPos);
+      }
     } else {
       rawLine = rawText;
     }
@@ -238,6 +240,8 @@ class CommitMessageFormatter {
 
     let { formatted, rest } = subject;
 
+    console.log({ rest });
+
     // remove leading space if it exists
     rest = rest.replace(/^([ ]+)/g, '');
 
@@ -249,7 +253,11 @@ class CommitMessageFormatter {
       rest = ''.padStart(minRequiredNls - nlsAtTheBeginning, '\n') + rest;
     }
 
-    rest = reflow(rest, this._tabSize, this._indentWithTabs);
+    rest = reflow(rest, {
+      tabSize: this._tabSize,
+      indentWithTabs: this._indentWithTabs,
+      protectedPatterns: this._protectedPatterns,
+    });
 
     while (rest.length > this._lineLength) {
       const next = this.formatNextLine(rest);

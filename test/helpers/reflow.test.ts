@@ -109,30 +109,55 @@ const protectedLine = trim`
 
 describe('reflow', () => {
   it('rejoin indented lines', () => {
-    expect(reflow(indentedWithTabs, 2, true)).toBe(indentedWithTabsJoined);
+    expect(reflow(indentedWithTabs, { tabSize: 2, indentWithTabs: true })).toBe(
+      indentedWithTabsJoined
+    );
   });
 
   it('rejoin long lines', () => {
-    expect(reflow(longLines, 2, true)).toBe(longLinesJoined);
+    expect(reflow(longLines, { tabSize: 2, indentWithTabs: true })).toBe(
+      longLinesJoined
+    );
   });
 
   it('rejoin list indented with tabs', () => {
-    expect(reflow(listWithTabs, 2, true)).toBe(listWithTabsJoined);
+    expect(reflow(listWithTabs, { tabSize: 2, indentWithTabs: true })).toBe(
+      listWithTabsJoined
+    );
   });
 
   it('rejoin mixed', () => {
-    expect(reflow(mixed, 2, true)).toBe(mixedJoined);
+    expect(reflow(mixed, { tabSize: 2, indentWithTabs: true })).toBe(
+      mixedJoined
+    );
   });
 
   it('begins with nl', () => {
-    expect(reflow(beginsWithNl, 2, true)).toBe(beginsWithNl);
+    expect(reflow(beginsWithNl, { tabSize: 2, indentWithTabs: true })).toBe(
+      beginsWithNl
+    );
   });
 
   it('final newline should not be duplicated', () => {
-    expect(reflow(finalNewlineInserted, 2, false)).toBe(finalNewlineInserted);
+    expect(
+      reflow(finalNewlineInserted, { tabSize: 2, indentWithTabs: true })
+    ).toBe(finalNewlineInserted);
   });
 
   it('Protected line should be kept untouched', () => {
-    expect(reflow(protectedLine, 2, false)).toBe(protectedLine);
+    expect(reflow(protectedLine, { tabSize: 2, indentWithTabs: true })).toBe(
+      protectedLine
+    );
+  });
+
+  it('todo4', () => {
+    const raw = trim`
+Phasellus ac nisi ac arcu blandit egestas ac non dui.
+Etiam sed lorem id mauris posuere porta id at lacus.
+Aenean gravida nulla at tempor lobortis.
+Fusce rhoncus tellus nec nisl congue bibendum.
+Praesent convallis leo quis eros laoreet, nec viverra nulla ultricies.
+`;
+    expect(reflow(raw, { tabSize: 2, indentWithTabs: true })).toBe('');
   });
 });

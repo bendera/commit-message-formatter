@@ -2,16 +2,31 @@ import analyzeLine, { LineType } from './analyzeLine';
 
 export default function reflow(
   message: string,
-  tabSize: number,
-  indentWithTabs: boolean
+  options: {
+    tabSize?: number;
+    indentWithTabs?: boolean;
+    protectedPatterns?: string[];
+  } = {}
 ) {
+  const defaultOptions = {
+    tabSize: 2,
+    indentWithTabs: false,
+    protectedPatterns: [],
+  };
+  const finalizedOptions = Object.assign(defaultOptions, options);
+  const { tabSize, indentWithTabs, protectedPatterns } = finalizedOptions;
+
   const lines = message.split('\n');
   const joinedLines: string[] = [];
   let currentJoinedLine = '';
   let prevType: LineType | 'none' = 'none';
 
   lines.forEach((l, i) => {
-    const { lineType } = analyzeLine(l, { tabSize, indentWithTabs });
+    const { lineType } = analyzeLine(l, {
+      tabSize,
+      indentWithTabs,
+      protectedPatterns,
+    });
 
     if (lineType === 'list-item') {
       if (prevType !== 'empty') {
