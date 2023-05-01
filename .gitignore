@@ -2,6 +2,6 @@ node_modules/
 coverage/
 dist/
 
-.vscode/
+.vscode/*
 !.vscode/extensions.json
 bendera-commit-message-formatter-*.tgz
