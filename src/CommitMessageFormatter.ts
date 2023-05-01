@@ -26,7 +26,7 @@ class CommitMessageFormatter {
   private _collapseMultipleEmptyLines: boolean;
   private _protectedPatterns: string[];
 
-  constructor(options?: CommitMessageFormatterOptions) {
+  constructor(options: CommitMessageFormatterOptions = {}) {
     const defaultOptions: CommitMessageFormatterOptions = {
       subjectMode: 'truncate',
       subjectLength: 50,
@@ -36,7 +36,7 @@ class CommitMessageFormatter {
       collapseMultipleEmptyLines: true,
       protectedPatterns: ['#', 'Co-authored-by:', 'Signed-off-by:'],
     };
-    const finalOptions = Object.assign(defaultOptions, options ? options : {});
+    const finalOptions = Object.assign(defaultOptions, options);
     const {
       subjectMode,
       subjectLength,
@@ -44,6 +44,7 @@ class CommitMessageFormatter {
       tabSize,
       indentWithTabs,
       collapseMultipleEmptyLines,
+      protectedPatterns,
     } = finalOptions;
 
     this._subjectMode = subjectMode;
@@ -52,6 +53,7 @@ class CommitMessageFormatter {
     this._tabSize = tabSize;
     this._indentWithTabs = indentWithTabs;
     this._collapseMultipleEmptyLines = collapseMultipleEmptyLines;
+    this._protectedPatterns = protectedPatterns;
   }
 
   getOptions(): CommitMessageFormatterOptions {
@@ -61,6 +63,7 @@ class CommitMessageFormatter {
       lineLength: this._lineLength,
       tabSize: this._tabSize,
       indentWithTabs: this._indentWithTabs,
+      protectedPatterns: this._protectedPatterns,
     };
   }
 
@@ -185,16 +188,19 @@ class CommitMessageFormatter {
 
   formatNextLine(rawText: string): { formatted: string; rest: string } {
     let nextNlPos = rawText.indexOf('\n');
+    const hasFinalNl = nextNlPos !== -1;
 
-    if (nextNlPos === -1) {
+    if (!hasFinalNl) {
       nextNlPos = rawText.length;
     }
 
-    const rawLine = rawText.substring(0, nextNlPos + 1);
+    const rawLine = rawText.substring(0, nextNlPos);
 
     if (rawLine.length < this._lineLength) {
+      const formatted = hasFinalNl ? rawLine + '\n' : rawLine;
+
       return {
-        formatted: rawLine,
+        formatted,
         rest: rawText.substring(nextNlPos + 1),
       };
     }
@@ -203,7 +209,17 @@ class CommitMessageFormatter {
       analyzeLine(rawLine, {
         tabSize: this._tabSize,
         indentWithTabs: this._indentWithTabs,
+        protectedPatterns: this._protectedPatterns,
       });
+
+    if (lineType === 'protected') {
+      const formatted = hasFinalNl ? rawLine + '\n' : rawLine;
+
+      return {
+        formatted,
+        rest: rawText.substring(nextNlPos + 1),
+      };
+    }
 
     let formattedLine = leadingText;
     const remainingLine = rawLine.substring(leadingText.length);
@@ -225,8 +241,10 @@ class CommitMessageFormatter {
       }
     });
 
+    const formatted = hasFinalNl ? formattedLine + '\n' : formattedLine;
+
     return {
-      formatted: formattedLine,
+      formatted,
       rest: rawText.substring(nextNlPos + 1),
     };
   }
@@ -240,8 +258,6 @@ class CommitMessageFormatter {
 
     let { formatted, rest } = subject;
 
-    console.log({ rest });
-
     // remove leading space if it exists
     rest = rest.replace(/^([ ]+)/g, '');
 
@@ -249,7 +265,7 @@ class CommitMessageFormatter {
     const nlsAtTheBeginning = nlMatches ? nlMatches[0].length : 0;
     const minRequiredNls = 2;
 
-    if (nlsAtTheBeginning < minRequiredNls && formatted !== '') {
+    if (nlsAtTheBeginning < minRequiredNls && formatted !== '\n') {
       rest = ''.padStart(minRequiredNls - nlsAtTheBeginning, '\n') + rest;
     }
 
