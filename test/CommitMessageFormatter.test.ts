@@ -42,6 +42,7 @@ describe('CommitMessageFormatter', () => {
       lineLength: 72,
       tabSize: 2,
       indentWithTabs: false,
+      protectedPatterns: ['#', 'Co-authored-by:', 'Signed-off-by:'],
     });
   });
 
@@ -52,6 +53,7 @@ describe('CommitMessageFormatter', () => {
       lineLength: 200,
       tabSize: 10,
       indentWithTabs: true,
+      protectedPatterns: ['Lorem:'],
     });
 
     expect(formatter.getOptions()).toStrictEqual({
@@ -60,6 +62,7 @@ describe('CommitMessageFormatter', () => {
       lineLength: 200,
       tabSize: 10,
       indentWithTabs: true,
+      protectedPatterns: ['Lorem:'],
     });
   });
 
