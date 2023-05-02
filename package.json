@@ -5,8 +5,10 @@
   "main": "dist/CommitMessageFormatter.js",
   "types": "dist/CommitMessageFormatter.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "jest --coverage",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
   "repository": {
@@ -26,6 +28,7 @@
     "jest": "^29.5.0",
     "jest-config": "^29.5.0",
     "prettier": "^2.8.8",
+    "rimraf": "^5.0.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   },
