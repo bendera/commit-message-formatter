@@ -1,4 +1,4 @@
-import analyzeLine, { LineType } from './analyzeLine';
+import analyzeLine, { LineType } from './analyzeLine.js';
 
 export default function reflow(
   message: string,

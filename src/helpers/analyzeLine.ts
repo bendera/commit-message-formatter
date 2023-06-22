@@ -1,4 +1,4 @@
-import calculateNumberOfTextColumns from './calculateNumberOfTextColumns';
+import calculateNumberOfTextColumns from './calculateNumberOfTextColumns.js';
 
 export type LineType =
   | 'empty'

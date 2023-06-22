@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/CommitMessageFormatter.js",
   "types": "dist/CommitMessageFormatter.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "jest --coverage",

@@ -1,5 +1,5 @@
-import analyzeLine from './helpers/analyzeLine';
-import reflow from './helpers/reflow';
+import analyzeLine from './helpers/analyzeLine.js';
+import reflow from './helpers/reflow.js';
 
 export type SubjectFormattingMode =
   | 'truncate'
